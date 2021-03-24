@@ -5,7 +5,7 @@
 
 if test $# -eq 0
 then
-    echo "usage: ./find_TODOs.sh <projectdir>"
+    echo "usage: ./find_TODOs.sh <projectdir>" >&2
     exit 1
 fi
 
