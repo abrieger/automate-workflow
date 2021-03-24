@@ -5,13 +5,13 @@
 
 if test $# -eq 0
 then
-    echo "usage: ./find_TODO_FIXME.sh <projectdir>"
+    echo "usage: ./find_TODOs.sh <projectdir>"
     exit 1
 fi
 
 for file in "$@"
 do
-    test "$file" = "find_TODO_FIXME.sh" &&
+    test "$file" = "find_TODOs.sh" &&
         continue # Ignore this script
     if test -d "$file" 
     then
