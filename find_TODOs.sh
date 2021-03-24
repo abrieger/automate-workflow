@@ -1,6 +1,6 @@
 #!/bin/dash
 
-# Program outputs location TODO and FIXME statements in project
+# Program outputs location of TODO and FIXME statements in specified directory
 # Written by Adam Brieger on 24 March 2021
 
 if test $# -eq 0
