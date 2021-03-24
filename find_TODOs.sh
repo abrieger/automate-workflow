@@ -24,7 +24,7 @@ do
         then
             # Located TODO or FIXME in this file
             tmp=$(mktemp)
-            trap 'rm -f $tmp' INT TERM EXIT
+            trap 'rm -f $tmp; exit' INT TERM EXIT
             echo "$found" > "$tmp"
 
             echo "-------------------------------------------------------------"
