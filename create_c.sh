@@ -10,6 +10,12 @@ read filename
 
 created=$(date +"%d/%m/%Y")
 
+if [ -e "${filename}.c" ]
+then
+    echo "File name already exists!" >&2
+    exit 1
+fi
+
 cat > "${filename}.c" <<EOF
 // Program written by $name on $created
  
