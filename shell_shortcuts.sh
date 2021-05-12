@@ -18,3 +18,11 @@ cdl() { cd "$1"; ls -l }
 # Find locaion of a file in the current folder
 # usage: ffile <file> 
 alias ffile="find . -name "
+
+# Long list all files including hidden files
+# usage: lla
+alias lla="ls -la"
+
+# Clears terminal
+# usage: c
+alias c="clear"
