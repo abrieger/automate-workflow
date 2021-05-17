@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # Option -s converts to snake case and -c converts to camel case
-# Assumes strings use double quotes
+# Assumes strings do not contain escaped quotations
 
 # Written by Adam Brieger
 
@@ -18,6 +18,7 @@ use Getopt::Std;
 our ($opt_s, $opt_c) = (0, 0);
 getopts("sc");
 
+# Process file
 $file = shift @ARGV or usage_exit();
 open my $f, '<', $file or die "$0: Unable to open file $file\n";
 @lines = <$f>;
@@ -26,40 +27,42 @@ close $f;
 # Transform case
 foreach $line (@lines) {
 
-    $in_string = 0; # Assume not within string
+    $in_string = 0; 
     @words = split(/ /, $line);
 
     foreach $word (@words) {
 
-        if ($word =~ /^[^"]*"[^"]*$/ and ! $in_string) {
+        if ($word =~ /^[^"']*("|')[^"']*$/ and ! $in_string) {
             # String begins with this word
             # print("String opened with $word\n");
             $in_string = 1;
+            $marker = $1; # Store style of quotation
             next; # Do not transform this word
-        } elsif ($word =~ /^[^"]*"[^"]*$/ and $in_string) {
+        } elsif ($word =~ /^[^"']*("|')[^"']*$/ and $in_string) {
             # String ends with this word
             # print("String closed with $word\n");
-            $in_string = 0;
-            next; # Do not transform this word
+            if ("$1" eq "$marker") {
+                $in_string = 0;
+                next; # Do not transform this word
+            }
         }
 
         if ($opt_c and ! $in_string) {
+            # Convert snake to camel
             $word =~ s/_(.)/uc($1)/ge;
         }
 
         if ($opt_s and ! $in_string) {
-            $word =~ s/_(.)/uc($1)/ge;
+            # Convert camel to snake
+            @caps = ($word =~ /([A-Z])/);
+            foreach $cap (@caps) {
+                $lower = lc $cap;
+                $word =~ s/$cap/_$lower/g;
+            }
         }
-
     }
     
     $line = join(' ', @words);
     print $line;
 
 }
-
-# Write to new file
-# if ($opt_c) {
-#     $new_file = 
-# }
-# open my $f, '>', 
